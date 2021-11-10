@@ -294,7 +294,7 @@ func (ta *Table) fetchColumnsViaSqlDB(conn *sql.DB) error {
 	for r.Next() {
 		var name, colType, extra string
 		var collation sql.NullString
-		err := r.Scan(&name, &colType, &collation, &unused, &unused, &unused, &extra, &unused, &unused)
+		err := r.Scan(&name, &colType, &collation, &unused, &unused, &unused, &extra, &unused, &unused, &unused, &unused, &unused)
 		if err != nil {
 			return errors.Trace(err)
 		}
