@@ -338,9 +338,6 @@ func (ta *Table) fetchIndexesViaSqlDB(conn *sql.DB) error {
 	var currentIndex *Index
 	currentName := ""
 
-	var unusedVal interface{}
-	unused := &unusedVal
-
 	for r.Next() {
 		var indexName, colName string
 		var noneUnique uint64
