@@ -328,7 +328,7 @@ func (ta *Table) fetchIndexes(conn mysql.Executer) error {
 }
 
 func (ta *Table) fetchIndexesViaSqlDB(conn *sql.DB) error {
-	r, err := conn.Query(fmt.Sprintf("show index from `%s`.`%s`", ta.Schema, ta.Name))
+	r, err := conn.Query(fmt.Sprintf("select non_unique, index_name, column_name, cardinality from information_schema.statistics where table_schema = '%s' and table_name = '%s'", ta.Schema, ta.Name))
 	if err != nil {
 		return errors.Trace(err)
 	}
@@ -347,19 +347,10 @@ func (ta *Table) fetchIndexesViaSqlDB(conn *sql.DB) error {
 		var cardinality interface{}
 
 		err := r.Scan(
-			&unused,
 			&noneUnique,
 			&indexName,
-			&unused,
 			&colName,
-			&unused,
 			&cardinality,
-			&unused,
-			&unused,
-			&unused,
-			&unused,
-			&unused,
-			&unused,
 		)
 		if err != nil {
 			return errors.Trace(err)
